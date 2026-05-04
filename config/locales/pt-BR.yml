@@ -53,6 +53,9 @@ pt-BR:
   back: 'Voltar'
   action: 'Ações'
   save: 'Salvar'
+  search: 'Buscar'
+  clear: 'Limpar'
+  cancel: 'Cancelar'
   active_status:
     active: 'Ativo'
     inactive: 'Inativo'
