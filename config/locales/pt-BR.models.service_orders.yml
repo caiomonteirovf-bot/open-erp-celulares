@@ -1,0 +1,65 @@
+---
+pt-BR:
+  activerecord:
+    models:
+      service_order:
+        one: "Ordem de Serviço"
+        other: "Ordens de Serviço"
+    attributes:
+      service_order:
+        customer_id: Cliente
+        phone_unit_id: Aparelho Cadastrado
+        status: Status
+        reported_defect: Defeito Relatado
+        diagnosis: Diagnóstico
+        technician_notes: Observações do Técnico
+        labor_cost: Mão de Obra
+        parts_cost: Peças
+        total_cost: Total
+        promised_at: Prazo de Entrega
+        under_warranty: Em Garantia
+        device_brand: Marca
+        device_model: Modelo
+        device_imei: IMEI
+        device_color: Cor
+        device_battery_health: "Bateria (%)"
+        accessories_received: Acessórios Recebidos
+
+  service_orders:
+    title: Ordens de Serviço
+    new: Nova OS
+    edit: Editar OS
+    number: "Nº OS"
+    created: "%{number} criada com sucesso."
+    updated: OS atualizada.
+    deleted: OS removida.
+    empty: Nenhuma OS encontrada.
+    search_customer: "Buscar por cliente..."
+    customer: Cliente
+    phone_unit: Aparelho Cadastrado
+    status: Status
+    device: Aparelho
+    reported_defect: Defeito Relatado
+    diagnosis: Diagnóstico
+    technician_notes: Obs. Técnico
+    accessories_received: Acessórios Recebidos
+    under_warranty: Em Garantia
+    labor_cost: Mão de Obra
+    parts_cost: Peças
+    total_cost: Total
+    promised_at: Prazo
+    add_item: "+ Adicionar peça / serviço"
+    device_section: Dados do Aparelho
+    service_section: Serviço
+    items_section: Peças e Serviços
+    device_brand: Marca
+    device_model: Modelo
+    device_color: Cor
+    device_battery_health: "Bateria (%)"
+    statuses:
+      aberta: Aberta
+      em_andamento: Em Andamento
+      aguardando_peca: "Aguardando Peça"
+      pronta: Pronta
+      entregue: Entregue
+      cancelada: Cancelada

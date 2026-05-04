@@ -1,0 +1,138 @@
+<%= render 'layouts/flash' %>
+
+<%= form_with model: @service_order do |f| %>
+  <div class="row">
+    <%# ── Dados do cliente e status ── %>
+    <div class="col-md-5">
+      <div class="mb-3">
+        <%= f.label :customer_id, t('service_orders.customer'), class: 'form-label' %>
+        <%= f.select :customer_id,
+              Customer.where(account_id: current_tenant).order(:name).map { |c| [c.name, c.id] },
+              { include_blank: '-- Selecione o cliente --' },
+              class: 'form-select select2-list' %>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="mb-3">
+        <%= f.label :phone_unit_id, t('service_orders.phone_unit'), class: 'form-label' %>
+        <%= f.select :phone_unit_id,
+              PhoneUnit.where(account_id: current_tenant).order(:imei1).map { |u| ["IMEI #{u.imei1} — #{u.product.name}", u.id] },
+              { include_blank: '-- Aparelho cadastrado (opcional) --' },
+              class: 'form-select select2-list' %>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="mb-3">
+        <%= f.label :status, t('service_orders.status'), class: 'form-label' %>
+        <%= f.select :status,
+              ServiceOrder::VALID_STATUSES.map { |s| [t("service_orders.statuses.#{s}"), s] },
+              {}, class: 'form-select' %>
+      </div>
+    </div>
+  </div>
+
+  <hr/>
+  <h6 class="text-muted mb-3"><%= t('service_orders.device_section') %></h6>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="mb-3">
+        <%= f.label :device_brand, t('service_orders.device_brand'), class: 'form-label' %>
+        <%= f.text_field :device_brand, class: 'form-control', placeholder: 'Samsung, Apple...' %>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="mb-3">
+        <%= f.label :device_model, t('service_orders.device_model'), class: 'form-label' %>
+        <%= f.text_field :device_model, class: 'form-control', placeholder: 'Galaxy S23...' %>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="mb-3">
+        <%= f.label :device_imei, 'IMEI', class: 'form-label' %>
+        <%= f.text_field :device_imei, class: 'form-control', maxlength: 15, inputmode: 'numeric' %>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="mb-3">
+        <%= f.label :device_color, t('service_orders.device_color'), class: 'form-label' %>
+        <%= f.text_field :device_color, class: 'form-control' %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="mb-3">
+        <%= f.label :device_battery_health, t('service_orders.device_battery_health'), class: 'form-label' %>
+        <%= f.number_field :device_battery_health, class: 'form-control', min: 1, max: 100, placeholder: '%' %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="mb-3">
+        <%= f.label :accessories_received, t('service_orders.accessories_received'), class: 'form-label' %>
+        <%= f.text_field :accessories_received, class: 'form-control', placeholder: 'Carregador, capa...' %>
+      </div>
+    </div>
+    <div class="col-md-3 d-flex align-items-end pb-3">
+      <div class="form-check">
+        <%= f.check_box :under_warranty, class: 'form-check-input' %>
+        <%= f.label :under_warranty, t('service_orders.under_warranty'), class: 'form-check-label fw-bold' %>
+      </div>
+    </div>
+  </div>
+
+  <hr/>
+  <h6 class="text-muted mb-3"><%= t('service_orders.service_section') %></h6>
+  <div class="mb-3">
+    <%= f.label :reported_defect, t('service_orders.reported_defect'), class: 'form-label' %> <span class="text-danger">*</span>
+    <%= f.text_field :reported_defect, class: 'form-control', placeholder: 'Descreva o defeito relatado pelo cliente' %>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="mb-3">
+        <%= f.label :diagnosis, t('service_orders.diagnosis'), class: 'form-label' %>
+        <%= f.text_area :diagnosis, class: 'form-control', rows: 3, placeholder: 'Diagnóstico técnico' %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="mb-3">
+        <%= f.label :technician_notes, t('service_orders.technician_notes'), class: 'form-label' %>
+        <%= f.text_area :technician_notes, class: 'form-control', rows: 3, placeholder: 'Observações internas' %>
+      </div>
+    </div>
+  </div>
+
+  <hr/>
+  <h6 class="text-muted mb-3"><%= t('service_orders.items_section') %></h6>
+  <div id="service-order-items">
+    <%= f.fields_for :service_order_items do |item_f| %>
+      <%= render 'service_order_item_fields', f: item_f %>
+    <% end %>
+  </div>
+  <%= link_to t('service_orders.add_item'), '#',
+        class: 'btn btn-sm btn-outline-secondary mb-3',
+        data: { action: 'click->nested-form#add', target: 'nested-form.template',
+                template: fields_for(:service_order_items, ServiceOrderItem.new, child_index: 'NEW_RECORD') { |fi|
+                  render('service_order_item_fields', f: fi)
+                } } %>
+
+  <hr/>
+  <div class="row align-items-end">
+    <div class="col-md-3">
+      <div class="mb-3">
+        <%= f.label :labor_cost, t('service_orders.labor_cost'), class: 'form-label' %>
+        <%= f.number_field :labor_cost, class: 'form-control', step: 0.01, min: 0 %>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="mb-3">
+        <%= f.label :promised_at, t('service_orders.promised_at'), class: 'form-label' %>
+        <%= f.date_field :promised_at, class: 'form-control' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-3">
+    <%= f.submit t('save'), class: 'btn btn-primary' %>
+    <%= link_to t('cancel'), service_orders_path, class: 'btn btn-secondary' %>
+  </div>
+<% end %>
