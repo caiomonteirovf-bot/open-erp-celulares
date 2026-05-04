@@ -1,5 +1,5 @@
 {
-  "name": "purple_stock",
+  "name": "casa_do_celular",
   "private": true,
   "scripts": {
     "build": "webpack --config webpack.config.js"
@@ -38,7 +38,7 @@
     "webpack-dev-server": "^4.11.1"
   },
   "engines": {
-    "node": "22.2.0",
-    "yarn": "1.22.22"
+    "node": ">=22",
+    "yarn": ">=1.22"
   }
 }
