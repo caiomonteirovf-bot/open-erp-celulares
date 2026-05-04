@@ -7,12 +7,22 @@
 #  id                               :bigint           not null, primary key
 #  active                           :boolean
 #  bar_code                         :string
+#  battery_health                   :integer
+#  brand                            :string
+#  color                            :string
+#  condition                        :string
 #  extra_sku                        :string
 #  highlight                        :boolean
+#  imei1                            :string
+#  imei2                            :string
+#  model_name                       :string
 #  name                             :string
 #  number_of_pieces_per_fabric_roll :integer
 #  price                            :float
+#  ram_gb                           :integer
+#  serial_number                    :string
 #  sku                              :string
+#  storage_gb                       :integer
 #  created_at                       :datetime         not null
 #  updated_at                       :datetime         not null
 #  account_id                       :integer
@@ -23,14 +33,19 @@
 #
 # Indexes
 #
-#  index_products_on_account_id   (account_id)
-#  index_products_on_category_id  (category_id)
+#  index_products_on_account_id    (account_id)
+#  index_products_on_category_id   (category_id)
+#  index_products_on_imei1         (imei1) UNIQUE WHERE imei1 IS NOT NULL
+#  index_products_on_imei2         (imei2) UNIQUE WHERE imei2 IS NOT NULL
+#  index_products_on_serial_number (serial_number) UNIQUE WHERE serial_number IS NOT NULL
 #
 # Foreign Keys
 #
 #  fk_rails_...  (category_id => categories.id)
 #
 class Product < ApplicationRecord
+  VALID_CONDITIONS = %w[novo seminovo usado vitrine].freeze
+
   acts_as_tenant :account
   belongs_to :category, optional: true
   has_many :purchase_products
@@ -54,6 +69,11 @@ class Product < ApplicationRecord
   end
 
   validates :number_of_pieces_per_fabric_roll, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_nil: true
+
+  validates :condition, inclusion: { in: VALID_CONDITIONS }, allow_nil: true
+  validates :battery_health, numericality: { only_integer: true, in: 1..100 }, allow_nil: true
+  validates :imei1, format: { with: /\A\d{15}\z/, message: :invalid_imei }, allow_nil: true, allow_blank: true
+  validates :imei2, format: { with: /\A\d{15}\z/, message: :invalid_imei }, allow_nil: true, allow_blank: true
 
   before_destroy :can_destroy?
 

@@ -282,7 +282,9 @@ class ProductsController < ApplicationController
     params.require(:product).permit(
       :name, :price, :bar_code, :highlight, :account_id,
       :category_id, :active, :image, :custom_id, :sku, :extra_sku,
-      :number_of_pieces_per_fabric_roll
+      :number_of_pieces_per_fabric_roll,
+      :imei1, :imei2, :serial_number, :brand, :model_name,
+      :storage_gb, :ram_gb, :color, :condition, :battery_health
     )
   end
 

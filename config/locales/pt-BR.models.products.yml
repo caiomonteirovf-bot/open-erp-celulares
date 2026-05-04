@@ -26,6 +26,16 @@ pt-BR:
         custom_id: ID do Cliente
         purchase_products: Entrada de estoque
         sale_products: Saída de estoque
+        imei1: IMEI 1
+        imei2: IMEI 2
+        serial_number: Número de Série
+        brand: Marca
+        model_name: Modelo
+        storage_gb: Armazenamento
+        ram_gb: Memória RAM
+        color: Cor
+        condition: Condição
+        battery_health: Saúde da Bateria (%)
     errors:
       models:
         product:
@@ -34,6 +44,10 @@ pt-BR:
               invalid: Existe entrada de estoque associada a este produto
             sale_products:
               invalid: Existe saída de estoque associada a este produto
+            imei1:
+              invalid_imei: deve ter exatamente 15 dígitos numéricos
+            imei2:
+              invalid_imei: deve ter exatamente 15 dígitos numéricos
 
   products:
     one: Produto
@@ -50,3 +64,21 @@ pt-BR:
     highlight: Destaque
     category: Categoria
     active: Ativo
+    celular:
+      section_title: Dados do Aparelho
+      brand: Marca
+      model_name: Modelo
+      imei1: IMEI 1
+      imei2: IMEI 2 (Dual SIM)
+      serial_number: Número de Série
+      storage_gb: Armazenamento
+      ram_gb: Memória RAM
+      color: Cor
+      battery_health: "Saúde da Bateria (%)"
+      condition: Condição
+      select_condition: "-- Selecione --"
+      conditions:
+        novo: Novo
+        seminovo: Seminovo
+        usado: Usado
+        vitrine: Vitrine
