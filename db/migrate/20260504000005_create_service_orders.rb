@@ -26,9 +26,9 @@ class CreateServiceOrders < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
+    # customer_id e phone_unit_id já têm index criado pelo t.references acima
     add_index :service_orders, :account_id
     add_index :service_orders, :status
-    add_index :service_orders, :customer_id
     add_index :service_orders, :created_at
   end
 end

@@ -26,7 +26,7 @@ services:
 
   redis:
     image: "redis:7.0.2"
-    ports:
-      - "6379:6379"
+    # Porta 6379 não é exposta ao host — app conecta via rede interna Docker.
+    # Remova este comentário e adicione `ports: ["6379:6379"]` se precisar de acesso externo.
 volumes:
   db_data:
