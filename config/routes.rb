@@ -62,6 +62,8 @@ Rails.application.routes.draw do
     end
     get :null_stock_details, on: :collection
   end
+
+  resources :phone_units
   resources :revenue_estimations
   resources :accounts
   resources :purchase_products

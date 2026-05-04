@@ -1,0 +1,78 @@
+<div class="section-header">
+  <div class="d-flex justify-content-between align-items-center w-100">
+    <h1>IMEI: <%= @phone_unit.imei1 %></h1>
+    <div class="d-flex gap-2">
+      <%= link_to t('edit'), edit_phone_unit_path(@phone_unit), class: 'btn btn-primary' %>
+      <%= link_to t('back'), phone_units_path, class: 'btn btn-secondary' %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="card mb-3">
+      <div class="card-header"><strong><%= t('phone_units.identification_section') %></strong></div>
+      <div class="card-body">
+        <dl class="row mb-0">
+          <dt class="col-sm-4">IMEI 1</dt>
+          <dd class="col-sm-8"><code><%= @phone_unit.imei1 %></code></dd>
+
+          <% if @phone_unit.imei2.present? %>
+            <dt class="col-sm-4">IMEI 2</dt>
+            <dd class="col-sm-8"><code><%= @phone_unit.imei2 %></code></dd>
+          <% end %>
+
+          <% if @phone_unit.serial_number.present? %>
+            <dt class="col-sm-4"><%= t('phone_units.serial_number') %></dt>
+            <dd class="col-sm-8"><%= @phone_unit.serial_number %></dd>
+          <% end %>
+
+          <dt class="col-sm-4"><%= t('phone_units.product') %></dt>
+          <dd class="col-sm-8"><%= link_to @phone_unit.product.name, @phone_unit.product %></dd>
+
+          <dt class="col-sm-4"><%= t('phone_units.status') %></dt>
+          <dd class="col-sm-8">
+            <span class="badge <%= status_badge_class(@phone_unit.status) %>">
+              <%= t("phone_units.statuses.#{@phone_unit.status}") %>
+            </span>
+          </dd>
+
+          <% if @phone_unit.condition.present? %>
+            <dt class="col-sm-4"><%= t('phone_units.condition') %></dt>
+            <dd class="col-sm-8"><%= t("phone_units.conditions.#{@phone_unit.condition}") %></dd>
+          <% end %>
+
+          <% if @phone_unit.color.present? %>
+            <dt class="col-sm-4"><%= t('phone_units.color') %></dt>
+            <dd class="col-sm-8"><%= @phone_unit.color %></dd>
+          <% end %>
+
+          <% if @phone_unit.battery_health.present? %>
+            <dt class="col-sm-4"><%= t('phone_units.battery_health') %></dt>
+            <dd class="col-sm-8"><%= @phone_unit.battery_health %>%</dd>
+          <% end %>
+        </dl>
+      </div>
+    </div>
+
+    <div class="card mb-3">
+      <div class="card-header"><strong><%= t('phone_units.pricing_section') %></strong></div>
+      <div class="card-body">
+        <dl class="row mb-0">
+          <dt class="col-sm-4"><%= t('phone_units.purchase_price') %></dt>
+          <dd class="col-sm-8"><%= number_to_currency(@phone_unit.purchase_price, unit: 'R$') if @phone_unit.purchase_price.present? %></dd>
+
+          <dt class="col-sm-4"><%= t('phone_units.sale_price') %></dt>
+          <dd class="col-sm-8"><%= number_to_currency(@phone_unit.sale_price, unit: 'R$') if @phone_unit.sale_price.present? %></dd>
+        </dl>
+      </div>
+    </div>
+
+    <% if @phone_unit.notes.present? %>
+      <div class="card">
+        <div class="card-header"><strong><%= t('phone_units.notes') %></strong></div>
+        <div class="card-body"><%= simple_format(@phone_unit.notes) %></div>
+      </div>
+    <% end %>
+  </div>
+</div>

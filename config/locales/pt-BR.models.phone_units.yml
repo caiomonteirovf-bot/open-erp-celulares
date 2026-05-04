@@ -1,0 +1,62 @@
+---
+pt-BR:
+  activerecord:
+    models:
+      phone_unit:
+        one: "Unidade"
+        other: "Unidades"
+    attributes:
+      phone_unit:
+        product_id: Produto
+        imei1: IMEI 1
+        imei2: IMEI 2
+        serial_number: Número de Série
+        status: Status
+        condition: Condição
+        purchase_price: Preço de Custo
+        sale_price: Preço de Venda
+        battery_health: "Saúde da Bateria (%)"
+        color: Cor
+        notes: Observações
+    errors:
+      models:
+        phone_unit:
+          attributes:
+            imei1:
+              invalid_imei: deve ter exatamente 15 dígitos numéricos
+            imei2:
+              invalid_imei: deve ter exatamente 15 dígitos numéricos
+
+  phone_units:
+    title: Controle de Estoque por IMEI
+    new: Nova Unidade
+    edit: Editar Unidade
+    created: Unidade cadastrada com sucesso.
+    updated: Unidade atualizada com sucesso.
+    deleted: Unidade removida.
+    empty: Nenhuma unidade encontrada.
+    product: Produto
+    status: Status
+    condition: Condição
+    serial_number: Número de Série
+    color: Cor
+    battery_health: "Saúde da Bateria (%)"
+    purchase_price: Custo
+    sale_price: Preço de Venda
+    notes: Observações
+    search_imei: "Buscar por IMEI..."
+    search_product: "Buscar por produto..."
+    select_product: "-- Selecione o produto --"
+    identification_section: Identificação do Aparelho
+    pricing_section: Precificação
+    statuses:
+      em_estoque: Em Estoque
+      vendido: Vendido
+      em_servico: Em Serviço
+      devolvido: Devolvido
+      perdido: Perdido
+    conditions:
+      novo: Novo
+      seminovo: Seminovo
+      usado: Usado
+      vitrine: Vitrine
