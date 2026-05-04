@@ -1,0 +1,11 @@
+# Override de desenvolvimento — carregado automaticamente pelo Docker Compose.
+# Substitui o comportamento padrão (que rodava rspec na inicialização)
+# para subir o servidor em modo development sem executar a suite de testes.
+services:
+  app:
+    environment:
+      CONFIG: development
+      DEPLOY_DATABASE: "true"
+      PERFORM_TESTS: "false"
+      START_APP: "true"
+      RAILS_ENV: development
