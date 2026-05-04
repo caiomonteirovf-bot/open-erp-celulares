@@ -53,6 +53,75 @@
     </div>
   </div>
 
+  <hr/>
+  <h5 class="mb-3"><%= t('products.celular.section_title') %></h5>
+
+  <div class="form-row">
+    <div class="form-group col-6">
+      <%= f.label :brand, t('products.celular.brand'), class: 'control-label' %>
+      <%= f.text_field :brand, class: 'form-control', placeholder: 'ex: Samsung, Apple, Motorola' %>
+    </div>
+    <div class="form-group col-6">
+      <%= f.label :model_name, t('products.celular.model_name'), class: 'control-label' %>
+      <%= f.text_field :model_name, class: 'form-control', placeholder: 'ex: Galaxy S23, iPhone 15 Pro' %>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-4">
+      <%= f.label :imei1, t('products.celular.imei1'), class: 'control-label' %>
+      <%= f.text_field :imei1, class: 'form-control', placeholder: '15 dígitos', maxlength: 15, inputmode: 'numeric' %>
+    </div>
+    <div class="form-group col-4">
+      <%= f.label :imei2, t('products.celular.imei2'), class: 'control-label' %>
+      <%= f.text_field :imei2, class: 'form-control', placeholder: '15 dígitos (dual SIM)', maxlength: 15, inputmode: 'numeric' %>
+    </div>
+    <div class="form-group col-4">
+      <%= f.label :serial_number, t('products.celular.serial_number'), class: 'control-label' %>
+      <%= f.text_field :serial_number, class: 'form-control', placeholder: 'Número de série' %>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-3">
+      <%= f.label :storage_gb, t('products.celular.storage_gb'), class: 'control-label' %>
+      <%= f.select :storage_gb,
+            options_for_select([['-', nil], ['16 GB', 16], ['32 GB', 32], ['64 GB', 64],
+                                ['128 GB', 128], ['256 GB', 256], ['512 GB', 512], ['1 TB', 1024]],
+                               @product.storage_gb),
+            {}, class: 'form-control' %>
+    </div>
+    <div class="form-group col-3">
+      <%= f.label :ram_gb, t('products.celular.ram_gb'), class: 'control-label' %>
+      <%= f.select :ram_gb,
+            options_for_select([['-', nil], ['1 GB', 1], ['2 GB', 2], ['3 GB', 3], ['4 GB', 4],
+                                ['6 GB', 6], ['8 GB', 8], ['12 GB', 12], ['16 GB', 16]],
+                               @product.ram_gb),
+            {}, class: 'form-control' %>
+    </div>
+    <div class="form-group col-3">
+      <%= f.label :color, t('products.celular.color'), class: 'control-label' %>
+      <%= f.text_field :color, class: 'form-control', placeholder: 'ex: Preto, Branco, Azul' %>
+    </div>
+    <div class="form-group col-3">
+      <%= f.label :battery_health, t('products.celular.battery_health'), class: 'control-label' %>
+      <%= f.number_field :battery_health, class: 'form-control', min: 1, max: 100, placeholder: '%' %>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-6">
+      <%= f.label :condition, t('products.celular.condition'), class: 'control-label' %>
+      <%= f.select :condition,
+            options_for_select(Product::VALID_CONDITIONS.map { |c| [t("products.celular.conditions.#{c}"), c] },
+                               @product.condition),
+            { include_blank: t('products.celular.select_condition') },
+            class: 'form-control' %>
+    </div>
+  </div>
+
+  <hr/>
+
   <div class="form-group">
     <%= f.submit t('save'), :class => 'btn btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
