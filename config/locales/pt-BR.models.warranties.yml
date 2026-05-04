@@ -1,0 +1,50 @@
+---
+pt-BR:
+  activerecord:
+    models:
+      warranty:
+        one: "Garantia"
+        other: "Garantias"
+    attributes:
+      warranty:
+        warranty_type: Tipo
+        started_at: Início
+        expires_at: Vencimento
+        document_number: Documento (NF/Contrato)
+        notes: Observações
+    errors:
+      models:
+        warranty:
+          attributes:
+            expires_at:
+              before_start: deve ser posterior à data de início
+
+  warranties:
+    title: Garantias
+    new: Nova Garantia
+    edit: Editar Garantia
+    created: Garantia registrada com sucesso.
+    updated: Garantia atualizada.
+    deleted: Garantia removida.
+    empty: Nenhuma garantia registrada para esta unidade.
+    confirm_delete: "Remover esta garantia?"
+    type: Tipo
+    started_at: Início
+    expires_at: Vencimento
+    days_remaining: Situação
+    document_number: Documento
+    notes: Observações
+    expires_today: Vence hoje!
+    expires_in_days:
+      one: "Vence em %{count} dia"
+      other: "Vence em %{count} dias"
+    expired_days_ago:
+      one: "Venceu há %{count} dia"
+      other: "Venceu há %{count} dias"
+    types:
+      fabrica: Fábrica
+      loja: Loja
+    status:
+      active: Ativa
+      expiring_soon: "Vence em breve"
+      expired: Vencida

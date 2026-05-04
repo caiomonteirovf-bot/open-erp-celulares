@@ -40,6 +40,7 @@ class PhoneUnit < ApplicationRecord
   acts_as_tenant :account
 
   belongs_to :product
+  has_many :warranties, dependent: :destroy
 
   validates :imei1, presence: true,
                     format: { with: IMEI_FORMAT, message: :invalid_imei },
