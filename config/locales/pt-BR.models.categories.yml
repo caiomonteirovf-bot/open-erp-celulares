@@ -1,9 +1,23 @@
 ---
 pt-BR:
+  activerecord:
+    attributes:
+      category:
+        name: Nome
+        ncm_code: Código NCM
+        ncm_description: Descrição NCM
+    errors:
+      models:
+        category:
+          attributes:
+            ncm_code:
+              invalid_ncm: "deve estar no formato 0000.00.00 (ex: 8517.13.00)"
   categories:
     one: Categoria
     two: Categorias
     name: Nome
+    ncm_code: Código NCM
+    ncm_description: Descrição NCM
     created: Categoria Criada
     updated: Categoria Atualizada
     deleted: Categoria Deletada
