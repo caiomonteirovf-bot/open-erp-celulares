@@ -24,9 +24,8 @@ user.account.features << feature
 
 user.account.account_features.first.update(is_enabled: true)
 
-Rails.logger.debug 'Categories'
-50.times { FactoryBot.create(:category, name: Faker::Lorem.word) }
-50.times { Category.create(name: Faker::Lorem.word, account_id: 1) }
+Rails.logger.debug 'Categories — celulares'
+load Rails.root.join('db/seeds/celulares_categories.rb')
 50.times do
   Customer.create(name: Faker::Name.name, email: Faker::Internet.email, phone: Faker::PhoneNumber.phone_number,
                   cpf: Faker::Number.number(digits: 11), account_id: 1)
