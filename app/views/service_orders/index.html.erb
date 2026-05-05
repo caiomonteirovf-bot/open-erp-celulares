@@ -1,0 +1,86 @@
+<div class="section-header">
+  <div class="d-flex justify-content-between align-items-center w-100">
+    <h1><%= t('service_orders.title') %></h1>
+    <%= link_to t('service_orders.new'), new_service_order_path, class: 'btn btn-primary' %>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <%= form_with url: service_orders_path, method: :get, class: 'row g-2 align-items-end' do %>
+      <div class="col-md-3">
+        <%= text_field_tag :search, params[:search], class: 'form-control', placeholder: t('service_orders.search_customer') %>
+      </div>
+      <div class="col-md-2">
+        <%= text_field_tag :imei, params[:imei], class: 'form-control', placeholder: 'IMEI' %>
+      </div>
+      <div class="col-md-2">
+        <%= select_tag :status,
+              options_for_select(
+                [['-- Status --', '']] + ServiceOrder::VALID_STATUSES.map { |s| [t("service_orders.statuses.#{s}"), s] },
+                params[:status]
+              ), class: 'form-select' %>
+      </div>
+      <div class="col-auto">
+        <%= submit_tag t('search'), class: 'btn btn-outline-secondary' %>
+        <%= link_to t('clear'), service_orders_path, class: 'btn btn-outline-secondary' %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body p-0">
+    <table class="table table-hover mb-0">
+      <thead class="table-light">
+        <tr>
+          <th><%= t('service_orders.number') %></th>
+          <th><%= t('service_orders.customer') %></th>
+          <th><%= t('service_orders.device') %></th>
+          <th><%= t('service_orders.reported_defect') %></th>
+          <th><%= t('service_orders.status') %></th>
+          <th><%= t('service_orders.total_cost') %></th>
+          <th><%= t('service_orders.promised_at') %></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @service_orders.each do |os| %>
+          <tr>
+            <td><strong><%= os.number %></strong></td>
+            <td><%= os.customer.name %></td>
+            <td>
+              <%= os.device_brand %> <%= os.device_model %>
+              <% if os.device_imei.present? %><br/><small class="text-muted"><code><%= os.device_imei %></code></small><% end %>
+            </td>
+            <td><%= truncate(os.reported_defect, length: 40) %></td>
+            <td>
+              <span class="badge <%= so_status_badge(os.status) %>">
+                <%= t("service_orders.statuses.#{os.status}") %>
+              </span>
+              <%= '<span class="badge bg-info ms-1">Garantia</span>'.html_safe if os.under_warranty? %>
+            </td>
+            <td><%= number_to_currency(os.total_cost, unit: 'R$') %></td>
+            <td>
+              <% if os.promised_at %>
+                <span class="<%= os.promised_at < Date.current && !os.closed? ? 'text-danger fw-bold' : '' %>">
+                  <%= l(os.promised_at, format: :short) %>
+                </span>
+              <% end %>
+            </td>
+            <td class="text-end">
+              <%= link_to t('show'), os, class: 'btn btn-sm btn-outline-secondary' %>
+              <%= link_to t('edit'), edit_service_order_path(os), class: 'btn btn-sm btn-outline-primary' %>
+            </td>
+          </tr>
+        <% end %>
+        <% if @service_orders.empty? %>
+          <tr>
+            <td colspan="8" class="text-center text-muted py-4"><%= t('service_orders.empty') %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%= render 'shared/pagy_nav', pagy: @pagy if @pagy %>

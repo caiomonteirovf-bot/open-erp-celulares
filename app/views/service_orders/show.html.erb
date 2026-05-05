@@ -1,0 +1,112 @@
+<div class="section-header">
+  <div class="d-flex justify-content-between align-items-center w-100">
+    <div>
+      <h1><%= @service_order.number %></h1>
+      <span class="badge <%= so_status_badge(@service_order.status) %> fs-6">
+        <%= t("service_orders.statuses.#{@service_order.status}") %>
+      </span>
+      <%= content_tag(:span, 'Garantia', class: 'badge bg-info ms-1 fs-6') if @service_order.under_warranty? %>
+    </div>
+    <div class="d-flex gap-2">
+      <%= link_to t('edit'), edit_service_order_path(@service_order), class: 'btn btn-primary' %>
+      <%= link_to t('back'), service_orders_path, class: 'btn btn-secondary' %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="card mb-3">
+      <div class="card-header"><strong><%= t('service_orders.device_section') %></strong></div>
+      <div class="card-body">
+        <dl class="row mb-0">
+          <dt class="col-sm-4"><%= t('service_orders.customer') %></dt>
+          <dd class="col-sm-8"><%= @service_order.customer.name %></dd>
+
+          <dt class="col-sm-4">Aparelho</dt>
+          <dd class="col-sm-8">
+            <%= @service_order.device_brand %> <%= @service_order.device_model %>
+            <%= " — #{@service_order.device_color}" if @service_order.device_color.present? %>
+          </dd>
+
+          <% if @service_order.device_imei.present? %>
+            <dt class="col-sm-4">IMEI</dt>
+            <dd class="col-sm-8"><code><%= @service_order.device_imei %></code></dd>
+          <% end %>
+
+          <% if @service_order.accessories_received.present? %>
+            <dt class="col-sm-4"><%= t('service_orders.accessories_received') %></dt>
+            <dd class="col-sm-8"><%= @service_order.accessories_received %></dd>
+          <% end %>
+        </dl>
+      </div>
+    </div>
+
+    <div class="card mb-3">
+      <div class="card-header"><strong><%= t('service_orders.service_section') %></strong></div>
+      <div class="card-body">
+        <p><strong><%= t('service_orders.reported_defect') %>:</strong> <%= @service_order.reported_defect %></p>
+        <% if @service_order.diagnosis.present? %>
+          <p><strong><%= t('service_orders.diagnosis') %>:</strong> <%= simple_format(@service_order.diagnosis) %></p>
+        <% end %>
+        <% if @service_order.technician_notes.present? %>
+          <p class="text-muted mb-0"><strong><%= t('service_orders.technician_notes') %>:</strong> <%= @service_order.technician_notes %></p>
+        <% end %>
+      </div>
+    </div>
+
+    <% if @service_order.service_order_items.any? %>
+      <div class="card mb-3">
+        <div class="card-header"><strong><%= t('service_orders.items_section') %></strong></div>
+        <div class="card-body p-0">
+          <table class="table mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Descrição</th>
+                <th class="text-center">Qtd</th>
+                <th class="text-end">Unit.</th>
+                <th class="text-end">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @service_order.service_order_items.each do |item| %>
+                <tr>
+                  <td><%= item.description %></td>
+                  <td class="text-center"><%= item.quantity %></td>
+                  <td class="text-end"><%= number_to_currency(item.unit_price, unit: 'R$') %></td>
+                  <td class="text-end"><%= number_to_currency(item.total_price, unit: 'R$') %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card mb-3">
+      <div class="card-header"><strong>Totais</strong></div>
+      <div class="card-body">
+        <dl class="row mb-0">
+          <dt class="col-7"><%= t('service_orders.parts_cost') %></dt>
+          <dd class="col-5 text-end"><%= number_to_currency(@service_order.parts_cost, unit: 'R$') %></dd>
+          <dt class="col-7"><%= t('service_orders.labor_cost') %></dt>
+          <dd class="col-5 text-end"><%= number_to_currency(@service_order.labor_cost, unit: 'R$') %></dd>
+          <dt class="col-7 fs-5 pt-2 border-top"><strong><%= t('service_orders.total_cost') %></strong></dt>
+          <dd class="col-5 text-end fs-5 pt-2 border-top"><strong><%= number_to_currency(@service_order.total_cost, unit: 'R$') %></strong></dd>
+        </dl>
+      </div>
+    </div>
+    <% if @service_order.promised_at %>
+      <div class="card">
+        <div class="card-body text-center">
+          <small class="text-muted"><%= t('service_orders.promised_at') %></small>
+          <div class="fs-4 <%= @service_order.promised_at < Date.current && !@service_order.closed? ? 'text-danger' : '' %>">
+            <%= l(@service_order.promised_at, format: :long) %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

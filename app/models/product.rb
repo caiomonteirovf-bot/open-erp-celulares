@@ -31,6 +31,10 @@
 #  fk_rails_...  (category_id => categories.id)
 #
 class Product < ApplicationRecord
+  # Condições aceitas para aparelhos celulares
+  VALID_CONDITIONS = %w[novo seminovo usado vitrine].freeze
+  IMEI_FORMAT      = /\A\d{15}\z/
+
   acts_as_tenant :account
   belongs_to :category, optional: true
   has_many :purchase_products
@@ -54,6 +58,12 @@ class Product < ApplicationRecord
   end
 
   validates :number_of_pieces_per_fabric_roll, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_nil: true
+
+  # Validações de campos celular (opcionais para manter compatibilidade)
+  validates :condition, inclusion: { in: VALID_CONDITIONS }, allow_nil: true
+  validates :battery_health, numericality: { only_integer: true, in: 1..100 }, allow_nil: true
+  validates :imei1, format: { with: IMEI_FORMAT, message: :invalid_imei }, allow_nil: true, allow_blank: true
+  validates :imei2, format: { with: IMEI_FORMAT, message: :invalid_imei }, allow_nil: true, allow_blank: true
 
   before_destroy :can_destroy?
 

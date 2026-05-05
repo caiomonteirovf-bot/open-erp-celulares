@@ -66,6 +66,8 @@ Rails.application.routes.draw do
   resources :phone_units do
     resources :warranties, except: %i[show]
   end
+
+  resources :service_orders
   resources :revenue_estimations
   resources :accounts
   resources :purchase_products

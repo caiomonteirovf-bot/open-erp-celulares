@@ -9,3 +9,5 @@ services:
       PERFORM_TESTS: "false"
       START_APP: "true"
       RAILS_ENV: development
+
+  # (Redis sem port binding — configurado no docker-compose.yml base)
